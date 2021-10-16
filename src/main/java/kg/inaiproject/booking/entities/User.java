@@ -41,6 +41,5 @@ public class User {
     LocalDate birthDate;
 
     @ManyToOne
-    @Column(name = "userRole")
     UserRole userRole;
 }
