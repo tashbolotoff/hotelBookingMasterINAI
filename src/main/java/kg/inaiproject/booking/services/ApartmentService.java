@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ApartmentService {
 
-    Apartment create(Apartment anketa);
+    Apartment create(Apartment apartment);
 
     List<Apartment> findAll();
 
