@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         return userRepo.getById(id);
     }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepo.getByUsername(username);
+    }
 }
