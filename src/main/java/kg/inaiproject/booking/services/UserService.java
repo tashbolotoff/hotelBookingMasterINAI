@@ -9,6 +9,8 @@ public interface UserService {
 
     User create(User user) throws ParseException;
 
+    User createAccount(User user) throws ParseException;
+
     User update(User user);
 
     List<User> findAll();

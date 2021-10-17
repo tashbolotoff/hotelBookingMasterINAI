@@ -4,6 +4,7 @@ import kg.inaiproject.booking.entities.User;
 import kg.inaiproject.booking.entities.Wallet;
 import kg.inaiproject.booking.exceptions.RecordNotFoundException;
 import kg.inaiproject.booking.repos.UserRepo;
+import kg.inaiproject.booking.repos.UserRoleRepo;
 import kg.inaiproject.booking.repos.WalletRepo;
 import kg.inaiproject.booking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
     private WalletRepo walletRepo;
 
     @Autowired
+    private UserRoleRepo userRoleRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -37,6 +41,18 @@ public class UserServiceImpl implements UserService {
         String strDate = dateFormat.format(date);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse(strDate));
+
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User createAccount(User user) throws ParseException {
+        Date date = user.getBirthDate();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(date);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse(strDate));
+        user.setUserRole(userRoleRepo.getByName("ROLE_CLIENT"));
 
         return userRepo.save(user);
     }
