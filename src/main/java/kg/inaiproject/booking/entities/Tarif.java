@@ -23,5 +23,5 @@ public class Tarif {
     String name;
 
     @Column(name = "price")
-    BigDecimal price;
+    Double price;
 }

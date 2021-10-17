@@ -18,37 +18,27 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Tarif Add/Edit</h4>
+            <h4 class="card-title">Period Type Add/Edit</h4>
           </div>
           <div class="card-body">
             <div class="form-validation">
-              <form th:object="${tarif}" class="form-valide"
-                    th:action="${tarif != null ?  '/admin/tarif/update' : '/admin/tarif/add'}" method="post">
+              <form th:object="${periodType}" class="form-valide"
+                    th:action="${periodType != null ?  '/admin/periodType/update' : '/admin/periodType/add'}" method="post">
                 <div class="row">
                   <div class="col-xl-12">
 
                     <div class="form-group row">
-                      <label class="col-lg-4 col-form-label" for="tarif">Tarif name
+                      <label class="col-lg-4 col-form-label" for="name">Period Type name
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-lg-6">
-                        <input type="text" class="form-control" id="tarif"
-                               name="name" th:value="${tarif != null ? tarif.getName() : ''}" placeholder="Enter a tarif name...">
-                      </div>
-                    </div>
-
-                    <div class="form-group row">
-                      <label class="col-lg-4 col-form-label" for="price">Price
-                        <span class="text-danger">*</span>
-                      </label>
-                      <div class="col-lg-6">
-                        <input type="number" class="form-control" id="price"
-                               name="price" th:value="${tarif != null ? tarif.getPrice() : ''}" placeholder="Enter a price...">
+                        <input type="text" class="form-control" id="name"
+                               name="name" th:value="${periodType != null ? periodType.getName() : ''}" placeholder="Enter a period type name...">
                       </div>
                     </div>
 
                     <input id="id" name="id" type="hidden" class="form-control"
-                           th:value="${tarif != null ? tarif.getId() : ''}">
+                           th:value="${periodType != null ? periodType.getId() : ''}">
 
                     <div class="form-group row">
                       <div class="col-lg-8 ml-auto">

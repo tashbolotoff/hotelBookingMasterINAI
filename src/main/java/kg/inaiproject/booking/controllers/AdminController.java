@@ -1,8 +1,11 @@
 package kg.inaiproject.booking.controllers;
 
+import kg.inaiproject.booking.entities.Period;
+import kg.inaiproject.booking.entities.PeriodType;
 import kg.inaiproject.booking.entities.Tarif;
 import kg.inaiproject.booking.entities.User;
 import kg.inaiproject.booking.enums.Sex;
+import kg.inaiproject.booking.services.PeriodTypeService;
 import kg.inaiproject.booking.services.TarifService;
 import kg.inaiproject.booking.services.UserRoleService;
 import kg.inaiproject.booking.services.UserService;
@@ -26,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private TarifService tarifService;
+
+    @Autowired
+    private PeriodTypeService periodTypeService;
 
     //MAPPINGS FOR USERS
     @GetMapping("/user/list")
@@ -89,5 +95,35 @@ public class AdminController {
     public String addTarif(@ModelAttribute("user") Tarif tarif) throws ParseException {
         tarifService.create(tarif);
         return "redirect:/admin/tarif/list";
+    }
+
+    //MAPPINGS FOR PERIOD TYPE
+    @GetMapping("/periodType/list")
+    public String getPeriodList(Model model) {
+        model.addAttribute("periodTypes", periodTypeService.findAll());
+        return "periodType/periodType_list";
+    }
+
+    @GetMapping("/periodType/{id}")
+    public String getPeriodEditForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("periodType", periodTypeService.getById(id));
+        return "periodType/periodType_form";
+    }
+
+    @PostMapping("/periodType/update")
+    public String updatePeriod(@ModelAttribute("user") PeriodType periodType) {
+        periodTypeService.update(periodType);
+        return "redirect:/admin/periodType/list";
+    }
+
+    @GetMapping("/periodType/add")
+    public String getAddPeriodTypeForm(Model model) {
+        return "periodType/periodType_form";
+    }
+
+    @PostMapping("/periodType/add")
+    public String addPeriodType(@ModelAttribute("periodType") PeriodType periodType) throws ParseException {
+        periodTypeService.create(periodType);
+        return "redirect:/admin/periodType/list";
     }
 }
