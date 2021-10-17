@@ -1,7 +1,9 @@
 package kg.inaiproject.booking.controllers;
 
+import kg.inaiproject.booking.entities.Tarif;
 import kg.inaiproject.booking.entities.User;
 import kg.inaiproject.booking.enums.Sex;
+import kg.inaiproject.booking.services.TarifService;
 import kg.inaiproject.booking.services.UserRoleService;
 import kg.inaiproject.booking.services.UserService;
 import org.dom4j.rule.Mode;
@@ -21,6 +23,9 @@ public class AdminController {
 
     @Autowired
     private UserRoleService userRoleService;
+
+    @Autowired
+    private TarifService tarifService;
 
     //MAPPINGS FOR USERS
     @GetMapping("/user/list")
@@ -54,5 +59,35 @@ public class AdminController {
     public String addUser(@ModelAttribute("user") User user) throws ParseException {
         userService.create(user);
         return "redirect:/admin/user/list";
+    }
+
+    //MAPPINGS FOR TARIF
+    @GetMapping("/tarif/list")
+    public String getTarifList(Model model) {
+        model.addAttribute("tarifs", tarifService.findAll());
+        return "tarif/tarif_list";
+    }
+
+    @GetMapping("/tarif/{id}")
+    public String getTarifEditForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("tarif", tarifService.getById(id));
+        return "tarif/tarif_form";
+    }
+
+    @PostMapping("/tarif/update")
+    public String updateTarif(@ModelAttribute("user") Tarif tarif) {
+        tarifService.update(tarif);
+        return "redirect:/admin/tarif/list";
+    }
+
+    @GetMapping("/tarif/add")
+    public String getAddTarifForm(Model model) {
+        return "tarif/tarif_form";
+    }
+
+    @PostMapping("/tarif/add")
+    public String addTarif(@ModelAttribute("user") Tarif tarif) throws ParseException {
+        tarifService.create(tarif);
+        return "redirect:/admin/tarif/list";
     }
 }
