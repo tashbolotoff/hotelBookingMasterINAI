@@ -1,8 +1,10 @@
 package kg.inaiproject.booking.services.impl;
 
 import kg.inaiproject.booking.entities.User;
+import kg.inaiproject.booking.entities.Wallet;
 import kg.inaiproject.booking.exceptions.RecordNotFoundException;
 import kg.inaiproject.booking.repos.UserRepo;
+import kg.inaiproject.booking.repos.WalletRepo;
 import kg.inaiproject.booking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,9 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
 
     @Autowired
+    private WalletRepo walletRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -32,6 +37,7 @@ public class UserServiceImpl implements UserService {
         String strDate = dateFormat.format(date);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse(strDate));
+
         return userRepo.save(user);
     }
 
@@ -57,7 +63,7 @@ public class UserServiceImpl implements UserService {
                     newUser.setPhoneNumber(user.getPhoneNumber());
                     newUser.setUserRole(user.getUserRole());
                     return userRepo.save(newUser);
-                }).orElseThrow(()-> new RecordNotFoundException("Not found user with id "+user.getId()));
+                }).orElseThrow(() -> new RecordNotFoundException("Not found user with id " + user.getId()));
     }
 
     @Override

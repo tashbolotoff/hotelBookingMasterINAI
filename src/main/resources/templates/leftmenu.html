@@ -90,16 +90,16 @@
                     <li class="nav-label first">Main Menu</li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                             class="icon icon-single-04"></i><span class="nav-text">All lists</span></a>
-                        <ul aria-expanded="false">
+                        <ul sec:authorize="hasRole('ROLE_ADMIN')" aria-expanded="false">
                             <li><a href="/admin/user/list">Users</a></li>
                         </ul>
-                        <ul aria-expanded="false">
+                        <ul sec:authorize="hasRole('ROLE_ADMIN')" aria-expanded="false">
                             <li><a href="/admin/tarif/list">Tarif</a></li>
                         </ul>
-                        <ul aria-expanded="false">
+                        <ul sec:authorize="hasRole('ROLE_ADMIN')" aria-expanded="false">
                             <li><a href="/admin/periodType/list">Period Types</a></li>
                         </ul>
-                        <ul aria-expanded="false">
+                        <ul sec:authorize="hasRole('ROLE_ADMIN')" aria-expanded="false">
                             <li><a href="/admin/period/list">Periods</a></li>
                         </ul>
                     </li>

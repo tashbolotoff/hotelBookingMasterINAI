@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -20,7 +19,7 @@ public class Wallet {
     Long id;
 
     @Column(name = "balance")
-    BigDecimal balance;
+    Double balance;
 
     @OneToOne
     User user;

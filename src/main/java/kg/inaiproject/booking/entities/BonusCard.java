@@ -20,7 +20,7 @@ public class BonusCard {
     Long id;
 
     @Column(name = "balance")
-    BigDecimal balance;
+    Double balance;
 
     @OneToOne
     User user;
