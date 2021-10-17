@@ -3,8 +3,10 @@ package kg.inaiproject.booking.entities;
 import kg.inaiproject.booking.enums.Sex;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -31,14 +33,21 @@ public class User {
     @Column(name = "lastName")
     String lastName;
 
-    @Column
-    String patronomic;
+    @Column(name = "patronimic")
+    String patronimic;
 
     @Enumerated(EnumType.STRING)
     Sex sex;
 
+    @Column(name = "phoneNumber")
+    String phoneNumber;
+
+    @Column(name = "email")
+    String email;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birthDate")
-    LocalDate birthDate;
+    Date birthDate;
 
     @ManyToOne
     UserRole userRole;

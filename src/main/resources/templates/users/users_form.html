@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="en">
+
+<head th:replace="leftmenu :: head">
+</head>
+<body>
+
+<div id="main-wrapper" th:replace="leftmenu :: adminMenu">
+
+</div>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">User Add/Edit</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-validation">
+                            <form th:object="${user}" class="form-valide"
+                                  th:action="${user != null ?  '/admin/user/update' : '/admin/user/add'}" method="post">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-username">Username
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-username"
+                                                       name="username" th:value="${user != null ? user.getUsername() : ''}" placeholder="Enter a username..">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-password">Password
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="password" class="form-control" id="val-password"
+                                                       name="password" placeholder="Choose a safe one..">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="firstName">Firstname
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="firstName" name="firstName"
+                                                       th:value="${user != null ? user.getFirstName() : ''}" placeholder="Enter a firstname..">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="lastName">Lastname
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="lastName" name="lastName"
+                                                       th:value="${user != null ? user.getLastName() : ''}" placeholder="Enter a lastname..">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="patronimic">Patronymic
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="patronimic"
+                                                       th:value="${user != null ? user.getPatronimic() : ''}" name="patronimic" placeholder="Enter a patronymic..">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="mdate">Birth date</label>
+                                            <div class="col-lg-6">
+                                                <input type="date" class="form-control" name="birthDate"
+                                                       th:value="${user != null ? #dates.format(user.getBirthDate(), 'yyyy-MM-dd') : ''}" placeholder="1990-00-00" id="mdate">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="sex">Sex
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" id="sex" name="sex">
+                                                    <option th:each="sex : ${sexs}" th:value="${sex}"
+                                                            th:text="${sex.name()}"
+                                                            th:selected="${user != null ? user.getSex() : ''}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="phoneNumber">Phone number
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="phoneNumber"
+                                                       th:value="${user != null ? user.getPhoneNumber() : ''}" name="phoneNumber" placeholder="Enter a phone number...">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="email">Email <span
+                                                    class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="email" name="email"
+                                                       th:value="${user != null ? user.getEmail() : ''}" placeholder="Your valid email..">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="userRole">User Role
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" id="userRole" name="userRole">
+                                                    <option th:each="role : ${roles}" th:value="${role.getId()}"
+                                                            th:text="${role.getName()}"
+                                                            th:selected="${user != null ? user.getUserRole() : ''}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <input id="id" name="id" type="hidden" class="form-control"
+                                               th:value="${user != null ? user.getId() : ''}">
+
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="leftmenu :: footer">
+
+</div>
+
+</body>
+</html>

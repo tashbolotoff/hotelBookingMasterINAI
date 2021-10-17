@@ -2,6 +2,7 @@ package kg.inaiproject.booking.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,9 +27,11 @@ public class Booking {
     @ManyToOne
     Apartment apartment;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
     @Column(name = "startDate")
     LocalDateTime startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
     @Column(name = "endDate")
     LocalDateTime endDate;
 

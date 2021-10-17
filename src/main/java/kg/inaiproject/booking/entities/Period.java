@@ -2,9 +2,11 @@ package kg.inaiproject.booking.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -19,11 +21,13 @@ public class Period {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "startDate")
-    LocalDate startDate;
+    Date startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
     @Column(name = "endDate")
-    LocalDate endDate;
+    Date endDate;
 
     @ManyToOne
     PeriodType periodType;

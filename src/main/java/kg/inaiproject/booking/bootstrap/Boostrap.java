@@ -42,7 +42,9 @@ public class Boostrap implements CommandLineRunner {
                 .password(passwordEncoder.encode("123"))
                 .firstName("Bekbulat")
                 .lastName("Tashbolotov")
-                .patronomic("Bakytbekovich")
+                .patronimic("Bakytbekovich")
+                .phoneNumber("+996555211308")
+                .email("b.tashbolotoff@gmail.com")
                 .userRole(adminRole)
                 .sex(Sex.man)
                 .build();
@@ -53,7 +55,9 @@ public class Boostrap implements CommandLineRunner {
                 .password(passwordEncoder.encode("123"))
                 .firstName("Abdullo")
                 .lastName("Karimov")
-                .patronomic("Akhmadillaevich")
+                .patronimic("Akhmadillaevich")
+                .phoneNumber("+996555053202")
+                .email("abdullokh-karimov2020@gmail.com")
                 .sex(Sex.man)
                 .userRole(clientRole)
                 .build();
