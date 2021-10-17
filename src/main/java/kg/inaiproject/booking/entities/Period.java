@@ -21,11 +21,11 @@ public class Period {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "startDate")
     Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "endDate")
     Date endDate;
 
