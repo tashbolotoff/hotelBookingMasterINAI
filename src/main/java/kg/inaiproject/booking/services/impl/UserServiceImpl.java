@@ -42,6 +42,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse(strDate));
 
+        User user1 = userRepo.save(user);
+        Wallet wallet = Wallet.builder()
+                .balance((double) 0)
+                .user(user1)
+                .build();
+        walletRepo.save(wallet);
+
+
         return userRepo.save(user);
     }
 
@@ -95,5 +103,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userRepo.getByUsername(username);
+    }
+
+    @Override
+    public void updateUserWallet(Long id, Double cash) {
+        Wallet wallet = walletRepo.getByUserId(id);
+        wallet.setBalance(wallet.getBalance() + cash);
+        walletRepo.save(wallet);
     }
 }

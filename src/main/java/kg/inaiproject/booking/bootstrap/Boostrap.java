@@ -1,14 +1,8 @@
 package kg.inaiproject.booking.bootstrap;
 
-import kg.inaiproject.booking.entities.PeriodType;
-import kg.inaiproject.booking.entities.Tarif;
-import kg.inaiproject.booking.entities.User;
-import kg.inaiproject.booking.entities.UserRole;
+import kg.inaiproject.booking.entities.*;
 import kg.inaiproject.booking.enums.Sex;
-import kg.inaiproject.booking.repos.PeriodTypeRepo;
-import kg.inaiproject.booking.repos.TarifRepo;
-import kg.inaiproject.booking.repos.UserRepo;
-import kg.inaiproject.booking.repos.UserRoleRepo;
+import kg.inaiproject.booking.repos.*;
 import kg.inaiproject.booking.services.PeriodTypeService;
 import kg.inaiproject.booking.services.TarifService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +27,9 @@ public class Boostrap implements CommandLineRunner {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private WalletRepo walletRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -62,6 +59,12 @@ public class Boostrap implements CommandLineRunner {
                 .build();
         userRepo.save(admin);
 
+        Wallet walletAdmin = Wallet.builder()
+                .user(admin)
+                .balance((double) 0)
+                .build();
+        walletRepo.save(walletAdmin);
+
         User client = User.builder()
                 .username("client")
                 .password(passwordEncoder.encode("123"))
@@ -74,6 +77,12 @@ public class Boostrap implements CommandLineRunner {
                 .userRole(clientRole)
                 .build();
         userRepo.save(client);
+
+        Wallet walletClient = Wallet.builder()
+                .user(client)
+                .balance((double) 0)
+                .build();
+        walletRepo.save(walletClient);
 
         //Creating tarifs
         Tarif superSaver = Tarif.builder()

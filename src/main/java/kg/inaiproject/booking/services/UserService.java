@@ -19,4 +19,6 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
+    void updateUserWallet(Long id, Double cash);
+
 }

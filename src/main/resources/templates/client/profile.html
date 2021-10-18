@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="en">
+
+<head th:replace="leftmenu :: head">
+</head>
+
+<body class="h-100">
+
+<div id="main-wrapper" th:replace="leftmenu :: adminMenu">
+
+</div>
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row justify-content-center h-100 align-items-center">
+            <div class="col-md-6" style="margin-top: 20px; margin-bottom: 20px">
+                <div class="authincation-content">
+                    <div class="row no-gutters">
+                        <div class="col-xl-12">
+                            <div class="auth-form">
+                                <h4 class="text-center mb-4">User Profile</h4>
+
+                                <div class="form-group">
+                                    <label><strong>Firstname</strong></label>
+                                    <input disabled type="text" th:value="${user.getFirstName()}" name="firstName"
+                                           class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Lastname</strong></label>
+                                    <input disabled type="text" th:value="${user.getLastName()}" name="lastName"
+                                           class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Patronymic</strong></label>
+                                    <input disabled type="text" th:value="${user.getPatronimic()}" name="patronimic"
+                                           class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Date of birth</strong></label>
+                                    <input disabled type="text"
+                                           th:value="${#dates.format(user.getBirthDate(), 'yyyy-MM-dd')}"
+                                           class="form-control" name="birthDate"
+                                           id="mdate">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Email</strong></label>
+                                    <input disabled type="email" th:value="${user.getEmail()}" name="email"
+                                           class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Sex</strong></label>
+                                    <input disabled type="text" th:value="${user.getSex().name()}" name="email"
+                                           class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>User role</strong></label>
+                                    <input disabled type="text" th:value="${user.getUserRole().getName()}" name="email"
+                                           class="form-control">
+                                </div>
+
+                                <form th:action="${'/client/updateBalance'}" method="post">
+                                    <div class="form-group">
+                                        <label><strong>Wallet (current balance)</strong></label>
+                                        <input disabled th:value="${wallet.getBalance()}" type="text" name="phoneNumber"
+                                               class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><strong>Wallet (add money)</strong></label>
+                                        <input type="number" name="balance" class="form-control">
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-block">Add money
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="leftmenu :: footer">
+
+    </div>
+</div>
+<script th:src="@{/vendor/global/global.min.js}"></script>
+<script th:src="@{/js/quixnav-init.js}"></script>
+</body>
+
+</html>
