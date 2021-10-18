@@ -27,4 +27,9 @@ public class WalletServiceImpl implements WalletService {
     public List<Wallet> findAll() {
         return walletRepo.findAll();
     }
+
+    @Override
+    public Wallet getByUserId(Long id) {
+        return walletRepo.getByUserId(id);
+    }
 }

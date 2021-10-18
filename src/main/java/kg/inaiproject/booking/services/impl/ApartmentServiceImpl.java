@@ -7,6 +7,9 @@ import kg.inaiproject.booking.services.ApartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +20,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public Apartment create(Apartment apartment) {
+        apartment.setIsFree(true);
         return apartmentRepo.save(apartment);
     }
 
@@ -37,7 +41,13 @@ public class ApartmentServiceImpl implements ApartmentService {
                     newApartment.setName(apartment.getName());
                     newApartment.setCountOfRooms(apartment.getCountOfRooms());
                     newApartment.setTarif(apartment.getTarif());
+                    newApartment.setIsFree(apartment.getIsFree());
                     return apartmentRepo.save(apartment);
                 }).orElseThrow(() -> new RecordNotFoundException("Apartment not found with id "+apartment.getId()));
+    }
+
+    @Override
+    public List<Apartment> findAllForClient(Long tarifId, Boolean value) {
+        return apartmentRepo.findAllByTarif_IdAndIsFree(tarifId, value);
     }
 }

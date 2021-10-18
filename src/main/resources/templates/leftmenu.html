@@ -87,8 +87,8 @@
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label first">Main Menu</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-label first">Main Menu</li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                             class="icon icon-single-04"></i><span class="nav-text">All lists</span></a>
                         <ul sec:authorize="hasRole('ROLE_ADMIN')" aria-expanded="false">
                             <li><a href="/admin/user/list">Users</a></li>
@@ -102,6 +102,10 @@
                         <ul sec:authorize="hasRole('ROLE_ADMIN')" aria-expanded="false">
                             <li><a href="/admin/period/list">Periods</a></li>
                         </ul>
+                    <li sec:authorize="hasRole('ROLE_CLIENT')" class="nav-label first">Booking</li>
+                    <ul sec:authorize="hasRole('ROLE_CLIENT')" aria-expanded="false">
+                        <li><a href="/booking/list">Booking</a></li>
+                    </ul>
                     </li>
                 </ul>
             </div>
@@ -140,6 +144,10 @@
 
 
         <script th:src="@{/js/dashboard/dashboard-1.js}"></script>
+
+        <!-- Datatable -->
+        <script th:src="@{/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/js/plugins-init/datatables.init.js}"></script>
     </div>
 </div>
 

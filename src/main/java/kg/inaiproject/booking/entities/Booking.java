@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,13 +28,13 @@ public class Booking {
     @ManyToOne
     Apartment apartment;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "startDate")
-    LocalDateTime startDate;
+    Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "endDate")
-    LocalDateTime endDate;
+    Date endDate;
 
     @Column(name = "sum")
     BigDecimal sum;
@@ -43,7 +44,4 @@ public class Booking {
 
     @Column(name = "generalSum")
     BigDecimal generalSum;
-
-    @ManyToOne
-    Period period;
 }

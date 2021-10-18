@@ -3,12 +3,16 @@ package kg.inaiproject.booking.bootstrap;
 import kg.inaiproject.booking.entities.*;
 import kg.inaiproject.booking.enums.Sex;
 import kg.inaiproject.booking.repos.*;
+import kg.inaiproject.booking.services.ApartmentService;
 import kg.inaiproject.booking.services.PeriodTypeService;
 import kg.inaiproject.booking.services.TarifService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 public class Boostrap implements CommandLineRunner {
@@ -30,6 +34,12 @@ public class Boostrap implements CommandLineRunner {
 
     @Autowired
     private WalletRepo walletRepo;
+
+    @Autowired
+    private PeriodRepo periodRepo;
+
+    @Autowired
+    private ApartmentService apartmentService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -98,15 +108,46 @@ public class Boostrap implements CommandLineRunner {
         tarifRepo.save(flexible);
 
         //Creating period types
-        PeriodType periodType = PeriodType.builder()
+        PeriodType holidays = PeriodType.builder()
                 .name("Holidays")
                 .build();
-        periodTypeRepo.save(periodType);
+        periodTypeRepo.save(holidays);
 
         PeriodType schoolTime = PeriodType.builder()
                 .name("School Time")
                 .build();
         periodTypeRepo.save(schoolTime);
+
+        //Creating apartments
+        Apartment firstApartment = Apartment.builder()
+                .name("Number #1")
+                .tarif(superSaver)
+                .countOfRooms(2)
+                .build();
+        apartmentService.create(firstApartment);
+
+        Apartment secondApartment = Apartment.builder()
+                .name("Number #2")
+                .tarif(flexible)
+                .countOfRooms(3)
+                .build();
+        apartmentService.create(secondApartment);
+
+        //Creating periods
+        Period periodHolidays = Period.builder()
+                .startDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-01-01"))
+                .endDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-02-01"))
+                .periodType(holidays)
+                .build();
+        periodRepo.save(periodHolidays);
+
+        Period periodSchoolTime = Period.builder()
+                .startDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-01"))
+                .endDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-10-01"))
+                .periodType(schoolTime)
+                .build();
+        periodRepo.save(periodSchoolTime);
+
 
 
 

@@ -13,4 +13,6 @@ public interface ApartmentService {
     Apartment getById(Long id);
 
     Apartment update(Apartment apartment);
+
+    List<Apartment> findAllForClient(Long tarifId, Boolean value);
 }

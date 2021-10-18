@@ -24,6 +24,9 @@ public class Apartment {
     @Column(name = "countOfRooms")
     Integer countOfRooms;
 
+    @Column(name = "isFree")
+    Boolean isFree;
+
     @ManyToOne
     Tarif tarif;
 }

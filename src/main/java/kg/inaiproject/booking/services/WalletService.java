@@ -11,4 +11,6 @@ public interface WalletService {
     Wallet getById(Long id);
 
     List<Wallet> findAll();
+
+    Wallet getByUserId(Long id);
 }
