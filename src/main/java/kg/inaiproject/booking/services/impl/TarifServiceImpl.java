@@ -37,6 +37,6 @@ public class TarifServiceImpl implements TarifService {
 
     @Override
     public Tarif getById(Long id) {
-        return tarifRepo.getById(id);
+        return tarifRepo.findById(id).get();
     }
 }

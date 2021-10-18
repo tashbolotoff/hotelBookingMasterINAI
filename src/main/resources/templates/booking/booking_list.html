@@ -50,16 +50,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="booking : ${bookings}">
+                                <tr th:each="booking : ${bookings}" style="text-align: center">
                                     <td th:text="${booking.getApartment() != null ? booking.getApartment().getName() : ''}"></td>
                                     <td th:text="${booking.getApartment() != null ? booking.getApartment().getCountOfRooms() : ''}"></td>
                                     <td th:text="${booking.getApartment() != null ? booking.getApartment().getTarif().getName() : ''}"></td>
                                     <td th:text="${booking != null ? #dates.format(booking.getStartDate(), 'yyyy-MM-dd HH:mm') : ''}"></td>
                                     <td th:text="${booking != null ? #dates.format(booking.getEndDate(), 'yyyy-MM-dd HH:mm') : ''}"></td>
-                                    <td th:text="${booking.getApartment() != null ? booking.getApartment().getTarif().getPrice() : ''}"></td>
-                                    <td th:text="${booking.getApartment() != null ? booking.getSumBonus() : ''}"></td>
-                                    <td th:text="${booking.getApartment() != null ? booking.getGeneralSum() : ''}"></td>
-                                    <td th:text="${booking != null ? booking.getGeneralSum() : ''}"></td>
+                                    <td th:text="${booking.getApartment() != null ? booking.getApartment().getTarif().getPrice()+'&#8364;' : ''}"></td>
+                                    <td th:text="${booking.getApartment() != null ? booking.getSum()+'&#8364;' : ''}"></td>
+                                    <td th:text="${booking.getApartment() != null ? booking.getSumBonus()+'&#8364;' : ''}"></td>
+                                    <td th:text="${booking != null ? booking.getGeneralSum()+'&#8364;' : ''}"></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -58,6 +58,7 @@ public class BookingController {
         model.addAttribute("tarifs", tarifService.findAll());
         model.addAttribute("bonuscard", bonusCardService.getByUserId(currentUser.getId()));
         model.addAttribute("wallet", walletService.getByUserId(currentUser.getId()));
+        model.addAttribute("currentUser", currentUser);
         return "booking/booking_form";
     }
 

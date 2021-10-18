@@ -85,7 +85,8 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
-                                                <input readonly type="text" class="form-control" id="sumBonus" name="sumBonus">
+                                                <input readonly type="text" class="form-control" id="sumBonus"
+                                                       name="sumBonus">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -94,11 +95,11 @@
                                             </label>
                                             <div class="col-lg-6">
                                                 <input readonly type="text" class="form-control" id="generalSum"
-                                                       name="generalSum">
+                                                       name="generalSum" >
                                             </div>
                                         </div>
 
-                                        <input id="id" name="id" type="hidden" class="form-control">
+                                        <input id="id" name="id" type="hidden" class="form-control" th:value="${currentUser.getId()}">
 
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
@@ -134,13 +135,55 @@
                 for (var i = 0; i < data.length; i++) {
                     var optn = data[i];
                     var el = document.createElement("option");
-                    el.textContent = optn.name + " Rooms:" + optn.countOfRooms;
+                    el.textContent = optn.name + " Rooms: " + optn.countOfRooms;
                     el.value = optn.id;
                     select.appendChild(el);
                 }
             }
         });
+        var priceForOneNight = document.getElementById("priceOneNight");
+        var price = document.getElementById("sum");
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/getTarifById/" + val,
+            dataType: 'json',
+            success: function (data) {
+                priceForOneNight.value = data.price
+                price.value = priceForOneNight.value * getDays();
+            }
+        });
+        var userId = document.getElementById("id").value;
+        var sumBonus = document.getElementById("sumBonus");
+        var generalSum = document.getElementById("generalSum");
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/getBonusCardByUserId/" + userId,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                var bonusForOneNight = Math.floor(data.balance/500) * 5;
+                sumBonus.value = bonusForOneNight * getDays();
+                generalSum.value = price.value - sumBonus.value;
+            }
+        });
+
+
+        function getDays() {
+            let startDateStr = jQuery('#startDate').val()
+            let endDateStr = jQuery('#endDate').val()
+            let startDate = new Date(startDateStr)
+            let endDate = new Date(endDateStr)
+
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+
+        }
     })
+
+
 </script>
 </body>
 </html>
