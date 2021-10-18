@@ -60,6 +60,7 @@
                                             <a th:href="'/admin/user/'+${user.getId()}" class="mr-4" data-toggle="tooltip"
                                                data-placement="top" title="Edit"><i
                                                     class="fa fa-pencil color-muted"></i> </a>
+                                            <a th:if="${bonusCardService.getByUserId(user.getId()) == null}" type="button" th:href="'/admin/bonuscard/add/'+${user.getId()}" class="btn btn-outline-success btn-xs">Add bonus card</a>
                                         </span>
                                     </td>
 

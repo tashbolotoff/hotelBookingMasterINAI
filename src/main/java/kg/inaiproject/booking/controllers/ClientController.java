@@ -3,6 +3,7 @@ package kg.inaiproject.booking.controllers;
 import kg.inaiproject.booking.entities.User;
 import kg.inaiproject.booking.enums.Sex;
 import kg.inaiproject.booking.repos.WalletRepo;
+import kg.inaiproject.booking.services.BonusCardService;
 import kg.inaiproject.booking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,9 @@ public class ClientController {
     @Autowired
     private WalletRepo walletRepo;
 
+    @Autowired
+    private BonusCardService bonusCardService;
+
     private User currentUser;
 
     //MAPPINGS FOR REGISTRATION
@@ -48,6 +52,7 @@ public class ClientController {
         getCurrentUser();
         model.addAttribute("user", currentUser);
         model.addAttribute("wallet", walletRepo.getByUserId(currentUser.getId()));
+        model.addAttribute("bonuscard", bonusCardService.getByUserId(currentUser.getId()));
         return "client/profile";
     }
 

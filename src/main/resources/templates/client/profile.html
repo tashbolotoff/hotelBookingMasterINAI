@@ -60,6 +60,11 @@
                                     <input disabled type="text" th:value="${user.getUserRole().getName()}" name="email"
                                            class="form-control">
                                 </div>
+                                <div th:if="${bonuscard != null}" class="form-group">
+                                    <label><strong>Bonuscard balance</strong></label>
+                                    <input disabled type="text" th:value="${bonuscard.getBalance()}" name="email"
+                                           class="form-control">
+                                </div>
 
                                 <form th:action="${'/client/updateBalance'}" method="post">
                                     <div class="form-group">

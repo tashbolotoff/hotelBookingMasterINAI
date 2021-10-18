@@ -39,4 +39,9 @@ public class BonusCardServiceImpl implements BonusCardService {
                     return bonusCardRepo.save(bonusCard);
                 }).orElseThrow(() -> new RecordNotFoundException("Bonus card not found with id "+bonusCard.getId()));
     }
+
+    @Override
+    public BonusCard getByUserId(Long id) {
+        return bonusCardRepo.getByUserId(id);
+    }
 }

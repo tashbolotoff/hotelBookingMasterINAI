@@ -1,9 +1,6 @@
 package kg.inaiproject.booking.controllers;
 
-import kg.inaiproject.booking.entities.Period;
-import kg.inaiproject.booking.entities.PeriodType;
-import kg.inaiproject.booking.entities.Tarif;
-import kg.inaiproject.booking.entities.User;
+import kg.inaiproject.booking.entities.*;
 import kg.inaiproject.booking.enums.Sex;
 import kg.inaiproject.booking.services.*;
 import org.dom4j.rule.Mode;
@@ -33,10 +30,14 @@ public class AdminController {
     @Autowired
     private PeriodService periodService;
 
+    @Autowired
+    private BonusCardService bonusCardService;
+
     //MAPPINGS FOR USERS
     @GetMapping("/user/list")
     public String getUserList(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("bonusCardService", bonusCardService);
         return "users/users_list";
     }
 
@@ -157,5 +158,17 @@ public class AdminController {
     public String addPeriod(@ModelAttribute("period") Period period) throws ParseException {
         periodService.create(period);
         return "redirect:/admin/period/list";
+    }
+
+    //MAPPING FOR BONUS CARD
+    @GetMapping("/bonuscard/add/{id}")
+    public String addBonusCard(@PathVariable("id") User user, Model model) {
+        bonusCardService.create(
+                BonusCard.builder()
+                .balance((double) 500)
+                .user(userService.getById(user.getId()))
+                .build()
+        );
+        return "redirect:/admin/user/list";
     }
 }

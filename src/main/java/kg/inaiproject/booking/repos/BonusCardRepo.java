@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BonusCardRepo extends JpaRepository<BonusCard, Long> {
+    BonusCard getByUserId(Long id);
 }

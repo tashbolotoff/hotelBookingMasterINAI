@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         walletRepo.save(wallet);
 
 
-        return userRepo.save(user);
+        return userRepo.save(user1);
     }
 
     @Override
@@ -61,8 +61,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse(strDate));
         user.setUserRole(userRoleRepo.getByName("ROLE_CLIENT"));
+        User user1 = userRepo.save(user);
+        Wallet wallet = Wallet.builder()
+                .balance((double) 0)
+                .user(user1)
+                .build();
+        walletRepo.save(wallet);
 
-        return userRepo.save(user);
+        return userRepo.save(user1);
     }
 
     @Override

@@ -13,4 +13,6 @@ public interface BonusCardService {
     BonusCard getById(Long id);
 
     BonusCard update(BonusCard bonusCard);
+
+    BonusCard getByUserId(Long id);
 }
