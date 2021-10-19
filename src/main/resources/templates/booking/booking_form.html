@@ -38,7 +38,6 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="apartment">Apartment
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
                                                 <select class="form-control" id="apartment" name="apartment">
@@ -65,7 +64,6 @@
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="priceOneNight">Apartment price
                                                 for 1 night
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
                                                 <input readonly type="text" class="form-control" id="priceOneNight"
@@ -74,7 +72,6 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="sum">Price
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
                                                 <input readonly type="text" class="form-control" id="sum" name="sum">
@@ -82,7 +79,6 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="sumBonus">Sum of bonus
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
                                                 <input readonly type="text" class="form-control" id="sumBonus"
@@ -91,19 +87,19 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="generalSum">General sum
-                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
                                                 <input readonly type="text" class="form-control" id="generalSum"
-                                                       name="generalSum" >
+                                                       name="generalSum">
                                             </div>
                                         </div>
 
-                                        <input id="id" name="id" type="hidden" class="form-control" th:value="${currentUser.getId()}">
+                                        <input id="id" name="id" type="hidden" class="form-control"
+                                               th:value="${currentUser.getId()}">
 
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" id="submit-btn" class="btn btn-primary">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -121,6 +117,10 @@
 
 </div>
 <script th:inline="javascript">
+
+    var period = [[${periods}]]
+    var tarif = [[${tarifs}]]
+
     jQuery('#tarif').on('change', function () {
         var sel = document.getElementById("tarif");
         var val = sel.options[sel.selectedIndex].value;
@@ -141,18 +141,38 @@
                 }
             }
         });
-        var priceForOneNight = document.getElementById("priceOneNight");
-        var price = document.getElementById("sum");
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: "/api/v1/getTarifById/" + val,
-            dataType: 'json',
-            success: function (data) {
-                priceForOneNight.value = data.price
-                price.value = priceForOneNight.value * getDays();
+
+        let startDateStr = jQuery('#startDate').val()
+        let endDateStr = jQuery('#endDate').val()
+        let startDate = new Date(startDateStr)
+        let endDate = new Date(endDateStr)
+        let holidPeriod = null;
+        for (let i = 0; i < period.length; i++) {
+            if (new Date(period[i].startDate) <= startDate && new Date(period[i].endDate) >= startDate) {
+                holidPeriod = period[i];
             }
-        });
+        }
+        let tar;
+        for (let i = 0; i < tarif.length; i++) {
+            if (tarif[i].id == val) {
+                console.log(holidPeriod)
+                tar = tarif[i].price;
+                if (holidPeriod != null) {
+                    if (holidPeriod.periodType.name == "Holidays") {
+                        console.log(holidPeriod.periodType.name);
+                        tar = tarif[i].price + 50;
+                    } else {
+                        tar = tarif[i].price;
+                        console.log(holidPeriod.periodType.name);
+                    }
+                }
+            }
+        }
+        $("#priceOneNight").val(tar)
+
+        var price = document.getElementById("sum");
+        price.value = tar * getDays();
+
         var userId = document.getElementById("id").value;
         var sumBonus = document.getElementById("sumBonus");
         var generalSum = document.getElementById("generalSum");
@@ -162,13 +182,35 @@
             url: "/api/v1/getBonusCardByUserId/" + userId,
             dataType: 'json',
             success: function (data) {
-                console.log(data);
-                var bonusForOneNight = Math.floor(data.balance/500) * 5;
-                sumBonus.value = bonusForOneNight * getDays();
-                generalSum.value = price.value - sumBonus.value;
+                if (data <= 0) {
+                    sumBonus.value = 0;
+                    generalSum.value = price.value;
+                } else {
+                    var bonusForOneNight = Math.floor(data / 500) * 5;
+                    sumBonus.value = bonusForOneNight * getDays();
+                    generalSum.value = price.value - sumBonus.value;
+                }
+                console.log(generalSum);
             }
+
         });
 
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/getWalletBalanceByUserId/" + userId,
+            dataType: 'json',
+            success: function (data) {
+                if (data >= generalSum.value) {
+                    $('#submit-btn').removeAttr('disabled')
+                } else {
+                    $('#submit-btn').attr('disabled', 'disabled')
+                }
+                console.log(generalSum);
+            }
+
+        });
 
         function getDays() {
             let startDateStr = jQuery('#startDate').val()

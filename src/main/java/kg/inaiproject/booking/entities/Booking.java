@@ -37,11 +37,11 @@ public class Booking {
     Date endDate;
 
     @Column(name = "sum")
-    BigDecimal sum;
+    Double sum;
 
     @Column(name = "sumBonus")
-    BigDecimal sumBonus;
+    Double sumBonus;
 
     @Column(name = "generalSum")
-    BigDecimal generalSum;
+    Double generalSum;
 }
